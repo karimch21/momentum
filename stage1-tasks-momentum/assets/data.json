@@ -1,0 +1,87 @@
+{
+    "ru": [
+        {
+            "text": "Пишите код так, как будто сопровождать его будет склонный к насилию психопат, который знает, где вы живете",
+            "author": "Стив Макконнелл"
+        },
+        {
+            "text": "Сложность программы растет до тех пор, пока не превысит способности программиста",
+            "author": "Артур Блох. Законы Мэрфи"
+        },
+        {
+            "text": "Ходить по воде и разрабатывать программы, следуя ТЗ, очень просто… если они заморожены",
+            "author": "И. Берард"
+        },
+        {
+            "text": "Я не пользуюсь словом БОГ. Я предпочитаю ЖИЗНЬ.",
+            "author": "Джидду Кришнамурти"
+        },
+        {
+            "text": "Не хватит никакого здоровья, чтобы приспособиться к этому глубоко больному обществу",
+            "author": "Джидду Кришнамурти"
+        }
+        ,
+        {
+            "text": "Душа — это Бог, нашедший приют в теле человека.",
+            "author": "Сенека (младший)"
+        }
+        ,
+        {
+            "text": "Что разум человека может постигнуть и во что он может поверить, того он способен достичь",
+            "author": "Наполеон Хилл"
+        }
+        ,
+        {
+            "text": "Сложнее всего начать действовать, все остальное зависит только от упорства.",
+            "author": "Амелия Эрхарт"
+        }
+        ,
+        {
+            "text": "Своим успехом я обязана тому, что никогда не оправдывалась и не принимала оправданий от других.",
+            "author": "Флоренс Найтингейл"
+        }
+    ],
+    "en": [
+        {
+            "text": "Write code as if it were accompanied by a violent psychopath who knows where you live",
+            "author": "Steve McConnell"
+        },
+        {
+            "text": "Program complexity grows until it exceeds the programmer's ability",
+            "author": "Arthur Bloch. Murphy's Laws"
+        },
+        {
+            "text": "Walking on water and developing software following the ToR is very easy... if it's frozen",
+            "author": "I. Berard"
+        },
+        {
+            "text": "I don't use the word GOD. I prefer LIFE.",
+            "author": "Jiddu Krishnamurti"
+        },
+        {
+            "text": "There won't be enough health to adapt to this deeply ill society",
+            "author": "Jiddu Krishnamurti"
+        }
+        ,
+        {
+            "text": "The soul is God who has found shelter in the human body.",
+            "author": "Seneca (junior)"
+        }
+        ,
+        {
+            "text": "What the human mind can comprehend and believe, it can achieve",
+            "author": "Napoleon Hill"
+        }
+        ,
+        {
+            "text": "The hardest thing is getting started, everything else depends on perseverance.",
+            "author": "Amelia Earhart"
+        }
+        ,
+        {
+            "text": "I owe my success to never making excuses or accepting excuses from others.",
+            "author": "Florence Nightingale"
+        }
+    ]
+    
+}
