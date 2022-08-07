@@ -156,7 +156,8 @@ function addingContentWeatherBlock(data) {
 }
 
 async function getDataQuotes(lang = 'en') {
-    let queotes = '../assets/data.json';
+    // let queotes = '../assets/data.json';
+    let queotes = 'stage1-tasks-momentum/assets/data.json';
     let res = await fetch(queotes);
 
     let data = await res.json();
