@@ -24,7 +24,9 @@ const audio = new Audio();
 const playListBox = document.querySelector('.play-list');
 let isPlay = false;
 let playNum = 0;
+
 import playList from './playList.js';
+
 
 window.addEventListener('beforeunload', () => {
     setLocalStorage('name', greetingInput.value)
@@ -54,6 +56,7 @@ function showTime() {
     showGreeting("en-US", getTimeOfDay)
     setTimeout(showTime, 1000);
 }
+
 function showDate(lang = "en-US") {
     const date = new Date();
     const options = {
@@ -92,6 +95,7 @@ function getTimeOfDay(lang = 'en-US') {
         }
     }
 }
+
 function showGreeting(lang, gettingTimeOfDay) {
     greeting.textContent = gettingTimeOfDay(lang);
 }
@@ -99,6 +103,7 @@ function showGreeting(lang, gettingTimeOfDay) {
 function setLocalStorage(name, value) {
     localStorage.setItem(name, value);
 }
+
 function getLocalStorage() {
     if (localStorage.getItem('name')) {
         greetingInput.value = localStorage.getItem('name');
@@ -111,8 +116,7 @@ function getNameCity() {
     if (nameCity.length > 0) {
         setLocalStorage('nameCity', nameCity);
         getWeather(nameCity)
-    }
-    else if (localStorage.getItem('nameCity') && nameCity.length === 0) {
+    } else if (localStorage.getItem('nameCity') && nameCity.length === 0) {
 
         nameCity = localStorage.getItem('nameCity');
         getWeather(nameCity);
@@ -126,19 +130,19 @@ function getNameCity() {
     }
 }
 async function getWeather(city, lang = 'en') {
-    console.log(city)
+
     const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city || 'Minsk'}&lang=${lang}&appid=08f2a575dda978b9c539199e54df03b0&units=metric`);
     const data = await res.json();
     if (!(data.cod < 300 && data.cod >= 200)) {
         weatherError.textContent = 'ОЙ, что-то пошло не так'
         clearContentWeatherBlock(data)
         return false
-    }
-    else {
+    } else {
         addingContentWeatherBlock(data)
     }
 
 }
+
 function clearContentWeatherBlock() {
     weatherIcon.className = 'weather-icon owf'
     temperature.textContent = ''
@@ -146,6 +150,7 @@ function clearContentWeatherBlock() {
     wind.textContent = '';
     humidity.textContent = '';
 }
+
 function addingContentWeatherBlock(data) {
     weatherError.textContent = ''
     weatherIcon.className = `weather-icon owf owf-${data.weather[0].id}`;
@@ -156,7 +161,7 @@ function addingContentWeatherBlock(data) {
 }
 
 async function getDataQuotes(lang = 'en') {
-  
+
     let queotes = './assets/data.json';
     let res = await fetch(queotes);
 
@@ -183,7 +188,7 @@ function setBg() {
     let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
 
     let bgNum = ('0' + randomNum.toString()).slice(-2);
-    console.log(bgNum)
+
     let urlBg = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
 
     let img = new Image();
@@ -219,7 +224,7 @@ function getSlidePrev() {
     }
 }
 
-
+// продвинутый аудиоплеер
 function activationSong(songs) {
 
     let newPlayList = JSON.parse(JSON.stringify(playList))
@@ -231,38 +236,110 @@ function activationSong(songs) {
     return newPlayList;
 
 }
+let timeAudo;
+let totalMinute;
+let totalSeconds;
+let durationAudio = '';
+let currentMinute = 0;
+let currentSecond = 0;
+
+function conclusionData() {
+    audio.addEventListener('loadedmetadata', () => {
+        timeAudo = audio.duration;
+
+        totalMinute = Math.floor((timeAudo / 60));
+        totalSeconds = Math.floor(((timeAudo / 60) - totalMinute).toFixed(2) * 60);
+        durationAudio = totalMinute + ':' + totalSeconds;
+        console.log(totalMinute, totalSeconds);
+    })
+
+    // setTimeout(function f(time) {
+    //     timeAudo = audio.duration;
+
+    //     totalMinute = Math.floor((timeAudo / 60));
+    //     totalSeconds = Math.floor(((timeAudo / 60) - totalMinute).toFixed(2) * 60);
+    //     durationAudio = totalMinute + ':' + totalSeconds;
+    //     console.log(totalMinute, totalSeconds);
+    // }, 100);
+
+}
+
+
+function currentTimeOutput() {
+    audio.addEventListener('loadedmetadata', () => {
+            setTimeout(function ff() {
+                currentSecond++;
+                if (currentSecond === 60) {
+                    currentMinute++;
+                    console.log(currentMinute)
+                    currentSecond = 0;
+                }
+                console.log(currentSecond)
+                if (totalMinute === currentMinute && totalSeconds === currentSecond) return
+                let ss = setTimeout(ff, 1000);
+                if (!isPlay) {
+                    clearTimeout(ss);
+                }
+            }, 1000);
+        })
+        // setTimeout(function ff() {
+        //     currentSecond++;
+        //     if (currentSecond === 60) {
+        //         currentMinute++;
+        //         console.log(currentMinute)
+        //         currentSecond = 0;
+        //     }
+        //     console.log(currentSecond)
+        //     if (totalMinute === currentMinute && totalSeconds === currentSecond) return
+        //     let ss = setTimeout(ff, 1000);
+        //     if (!isPlay) {
+        //         clearTimeout(ss);
+        //     }
+        // }, 1000);
+}
+
 
 function playAudio() {
     audio.src = playList[playNum].src;
+    console.log(audio.src)
+
+
     activationSong(createListForSongs)
     if (!isPlay) {
         isPlay = true;
         audio.play();
         toggleBtnPlayAudio()
-    }
-    else {
+        conclusionData()
+        currentTimeOutput()
+    } else {
         audio.currentTime = 0;
         audio.pause()
         toggleBtnPlayAudio()
         isPlay = false;
     }
+
+
 }
 
 function toggleBtnPlayAudio() {
     btncontrolAudio.classList.toggle('pause');
 }
+
 function switchinSongs() {
     isPlay = true;
     audio.src = playList[playNum].src;
     audio.play()
     btncontrolAudio.classList.add('pause');
+
+    conclusionData()
+    currentTimeOutput()
 }
 
 
 function createListForSongs(playList) {
     playListBox.innerHTML = ''
     let containerListSongs = document.createDocumentFragment();
-   
+
     for (let i = 0; i < playList.length; i++) {
         let li = document.createElement('li');
         li.classList.add('play-item');
@@ -289,6 +366,7 @@ function playPrev() {
         activationSong(createListForSongs)
     }
 }
+
 function playNext() {
     isPlay = true;
     if (playNum < playList.length - 1) {
