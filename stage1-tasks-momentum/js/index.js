@@ -20,7 +20,6 @@ let randomNum = generateRandomNumber(1, 20);
 const playControls = document.querySelector('.player-controls');
 const playerCurrentTime = document.querySelector('.player__current-time');
 const playerTotalTime = document.querySelector('.player__total-time');
-const playerProgress = document.querySelector('.player__progress');
 const playerSlider = document.querySelector('.player__slider');
 
 const btncontrolAudio = document.querySelector('.play');
@@ -40,6 +39,8 @@ window.addEventListener('beforeunload', () => {
 });
 window.addEventListener('load', getLocalStorage);
 window.addEventListener('load', () => {
+    getDataQuotes()
+    showTime()
     getNameCity()
     randomNum = generateRandomNumber(1, 20);
     setBg()
@@ -54,6 +55,8 @@ slidePrev.addEventListener('click', getSlidePrev);
 btncontrolAudio.addEventListener('click', playAudio);
 btnPlayPrev.addEventListener('click', playPrev);
 btnPlayNext.addEventListener('click', playNext);
+audio.addEventListener('ended', playNext)
+playerSlider.addEventListener('input', rewindAudio)
 
 function showTime() {
     const date = new Date();
@@ -192,6 +195,7 @@ function generateRandomNumber(min, max) {
 }
 
 function setBg() {
+
     let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
 
     let bgNum = ('0' + randomNum.toString()).slice(-2);
@@ -231,9 +235,8 @@ function getSlidePrev() {
     }
 }
 
-// продвинутый аудиоплеер
+// аудиоплеер
 function activationSong(songs) {
-
     let newPlayList = JSON.parse(JSON.stringify(playList))
     for (let obj of newPlayList) {
         delete obj.active;
@@ -258,14 +261,14 @@ function conclusionData() {
             return
         }
         if (!isNaN(audio.currentTime)) {
+            rangeSliderAudio()
+
             playerCurrentTime.textContent = currentMinute + ':' + (0 + currentSeconds.toString()).slice(-2);
         }
-        playerTotalTime.textContent = totalMinute + ':' + totalSeconds;
+        playerTotalTime.textContent = totalMinute + ':' + (0 + totalSeconds.toString()).slice(-2);
         let a = setTimeout(f, 1000);
     }, 1000);
 }
-
-
 
 
 function playAudio() {
@@ -274,8 +277,9 @@ function playAudio() {
     if (!isPlay) {
         isPlay = true;
         audio.play();
-        toggleBtnPlayAudio()
-        conclusionData()
+        activationSong(createListForSongs);
+        toggleBtnPlayAudio();
+        conclusionData();
     } else {
         audio.currentTime = 0;
         audio.pause()
@@ -344,11 +348,15 @@ function playNext() {
     }
 }
 
+function rewindAudio() {
+    let lengthAudioTrack = Math.floor(audio.duration);
+    if (!isNaN(lengthAudioTrack)) {
+        audio.currentTime = playerSlider.value;
+    }
+}
 
-
-
-
-
-
-getDataQuotes()
-showTime()
+function rangeSliderAudio() {
+    playerSlider.max = Math.floor(audio.duration);
+    playerSlider.value = Math.floor(audio.currentTime);
+}
+// аудиоплеер

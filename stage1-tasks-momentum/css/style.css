@@ -136,20 +136,11 @@ body {
 
 .player__progress {
     margin-bottom: 10px;
-    height: 2px;
-    background-color: rgba(255, 255, 255, 0.655);
     position: relative;
 }
 
 .player__slider {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: rgb(246, 139, 0);
-    border-radius: 100%;
-    left: 0%;
-    top: 50%;
-    transform: translateY(-50%);
+    display: block;
     cursor: pointer;
 }
 
