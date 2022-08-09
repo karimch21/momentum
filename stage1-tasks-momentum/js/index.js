@@ -16,6 +16,13 @@ const author = document.querySelector('.author');
 const slideNext = document.querySelector('.slide-next');
 const slidePrev = document.querySelector('.slide-prev');
 let randomNum = generateRandomNumber(1, 20);
+
+const playControls = document.querySelector('.player-controls');
+const playerCurrentTime = document.querySelector('.player__current-time');
+const playerTotalTime = document.querySelector('.player__total-time');
+const playerProgress = document.querySelector('.player__progress');
+const playerSlider = document.querySelector('.player__slider');
+
 const btncontrolAudio = document.querySelector('.play');
 const audioPlayer = document.querySelector('.player');
 const btnPlayPrev = document.querySelector('.play-prev');
@@ -131,7 +138,7 @@ function getNameCity() {
 }
 async function getWeather(city, lang = 'en') {
 
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city || 'Minsk'}&lang=${lang}&appid=08f2a575dda978b9c539199e54df03b0&units=metric`);
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city || 'Minsk'}&lang=${lang}&appid=d20ba9cced40c03fddd74ad024f5cff6&units=metric`);
     const data = await res.json();
     if (!(data.cod < 300 && data.cod >= 200)) {
         weatherError.textContent = 'ОЙ, что-то пошло не так'
@@ -236,89 +243,45 @@ function activationSong(songs) {
     return newPlayList;
 
 }
-let timeAudo;
-let totalMinute;
-let totalSeconds;
-let durationAudio = '';
-let currentMinute = 0;
-let currentSecond = 0;
+
 
 function conclusionData() {
-    audio.addEventListener('loadedmetadata', () => {
-        timeAudo = audio.duration;
+    setTimeout(function f() {
+        let totalTimeAudio = audio.duration;
+        let totalMinute = Math.floor((totalTimeAudio / 60));
+        let totalSeconds = Math.floor(((totalTimeAudio / 60) - totalMinute).toFixed(2) * 60);
 
-        totalMinute = Math.floor((timeAudo / 60));
-        totalSeconds = Math.floor(((timeAudo / 60) - totalMinute).toFixed(2) * 60);
-        durationAudio = totalMinute + ':' + totalSeconds;
-        console.log(totalMinute, totalSeconds);
-    })
+        let currentMinute = Math.floor((audio.currentTime / 60));
+        let currentSeconds = Math.floor(((audio.currentTime / 60) - currentMinute) * 60);
 
-    // setTimeout(function f(time) {
-    //     timeAudo = audio.duration;
-
-    //     totalMinute = Math.floor((timeAudo / 60));
-    //     totalSeconds = Math.floor(((timeAudo / 60) - totalMinute).toFixed(2) * 60);
-    //     durationAudio = totalMinute + ':' + totalSeconds;
-    //     console.log(totalMinute, totalSeconds);
-    // }, 100);
-
+        if (isNaN(totalTimeAudio)) {
+            return
+        }
+        if (!isNaN(audio.currentTime)) {
+            playerCurrentTime.textContent = currentMinute + ':' + (0 + currentSeconds.toString()).slice(-2);
+        }
+        playerTotalTime.textContent = totalMinute + ':' + totalSeconds;
+        let a = setTimeout(f, 1000);
+    }, 1000);
 }
 
 
-function currentTimeOutput() {
-    audio.addEventListener('loadedmetadata', () => {
-            setTimeout(function ff() {
-                currentSecond++;
-                if (currentSecond === 60) {
-                    currentMinute++;
-                    console.log(currentMinute)
-                    currentSecond = 0;
-                }
-                console.log(currentSecond)
-                if (totalMinute === currentMinute && totalSeconds === currentSecond) return
-                let ss = setTimeout(ff, 1000);
-                if (!isPlay) {
-                    clearTimeout(ss);
-                }
-            }, 1000);
-        })
-        // setTimeout(function ff() {
-        //     currentSecond++;
-        //     if (currentSecond === 60) {
-        //         currentMinute++;
-        //         console.log(currentMinute)
-        //         currentSecond = 0;
-        //     }
-        //     console.log(currentSecond)
-        //     if (totalMinute === currentMinute && totalSeconds === currentSecond) return
-        //     let ss = setTimeout(ff, 1000);
-        //     if (!isPlay) {
-        //         clearTimeout(ss);
-        //     }
-        // }, 1000);
-}
 
 
 function playAudio() {
     audio.src = playList[playNum].src;
-    console.log(audio.src)
 
-
-    activationSong(createListForSongs)
     if (!isPlay) {
         isPlay = true;
         audio.play();
         toggleBtnPlayAudio()
         conclusionData()
-        currentTimeOutput()
     } else {
         audio.currentTime = 0;
         audio.pause()
         toggleBtnPlayAudio()
         isPlay = false;
     }
-
-
 }
 
 function toggleBtnPlayAudio() {
@@ -332,7 +295,6 @@ function switchinSongs() {
     btncontrolAudio.classList.add('pause');
 
     conclusionData()
-    currentTimeOutput()
 }
 
 
