@@ -17,17 +17,21 @@ const slideNext = document.querySelector('.slide-next');
 const slidePrev = document.querySelector('.slide-prev');
 let randomNum = generateRandomNumber(1, 20);
 
-const playControls = document.querySelector('.player-controls');
-const playerCurrentTime = document.querySelector('.player__current-time');
-const playerTotalTime = document.querySelector('.player__total-time');
-const playerSlider = document.querySelector('.player__slider');
 
+
+const audio = new Audio();
 const btncontrolAudio = document.querySelector('.play');
 const audioPlayer = document.querySelector('.player');
 const btnPlayPrev = document.querySelector('.play-prev');
 const btnPlayNext = document.querySelector('.play-next');
-const audio = new Audio();
 const playListBox = document.querySelector('.play-list');
+const playControls = document.querySelector('.player-controls');
+const playerCurrentTime = document.querySelector('.player__current-time');
+const playerTotalTime = document.querySelector('.player__total-time');
+const playerSlider = document.querySelector('.player__slider');
+const payerNameSong = document.querySelector('.payer__name-song');
+const volume = document.querySelector('.volume');
+
 let isPlay = false;
 let playNum = 0;
 
@@ -55,8 +59,11 @@ slidePrev.addEventListener('click', getSlidePrev);
 btncontrolAudio.addEventListener('click', playAudio);
 btnPlayPrev.addEventListener('click', playPrev);
 btnPlayNext.addEventListener('click', playNext);
-audio.addEventListener('ended', playNext)
-playerSlider.addEventListener('input', rewindAudio)
+audio.addEventListener('ended', playNext);
+playerSlider.addEventListener('input', rewindAudio);
+volume.addEventListener('click', turnVolume);
+
+
 
 function showTime() {
     const date = new Date();
@@ -280,6 +287,7 @@ function playAudio() {
         activationSong(createListForSongs);
         toggleBtnPlayAudio();
         conclusionData();
+        outNameSong()
     } else {
         audio.currentTime = 0;
         audio.pause()
@@ -323,13 +331,15 @@ function playPrev() {
     if (playNum > 0) {
         playNum--;
         switchinSongs()
-        activationSong(createListForSongs)
+        activationSong(createListForSongs);
+        outNameSong();
         return
     }
     if (playNum === 0) {
         playNum = playList.length - 1;
         switchinSongs()
         activationSong(createListForSongs)
+        outNameSong()
     }
 }
 
@@ -337,14 +347,16 @@ function playNext() {
     isPlay = true;
     if (playNum < playList.length - 1) {
         playNum++
-        switchinSongs()
-        activationSong(createListForSongs)
+        switchinSongs();
+        activationSong(createListForSongs);
+        outNameSong()
         return
     }
     if (playNum == playList.length - 1) {
         playNum = 0;
-        switchinSongs()
-        activationSong(createListForSongs)
+        switchinSongs();
+        activationSong(createListForSongs);
+        outNameSong();
     }
 }
 
@@ -359,4 +371,22 @@ function rangeSliderAudio() {
     playerSlider.max = Math.floor(audio.duration);
     playerSlider.value = Math.floor(audio.currentTime);
 }
-// аудиоплеер
+
+function outNameSong() {
+    payerNameSong.textContent = playList[playNum].title;
+}
+
+
+function turnVolume() {
+    if (volume.classList.contains('volume-on')) {
+        volume.classList.remove('volume-on');
+        volume.classList.add('volume-off');
+        audio.muted = true;
+    } else {
+        volume.classList.add('volume-on');
+        volume.classList.remove('volume-off');
+        audio.muted = false;
+    }
+}
+
+// аудиоплеер!

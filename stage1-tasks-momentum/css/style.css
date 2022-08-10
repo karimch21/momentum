@@ -120,19 +120,49 @@ body {
 }
 
 .play-data {
-    max-width: 120px;
+    max-width: 200px;
 }
 
-.payer__time {
+.player__controls {
+    display: flex;
+}
+
+.music-control {
     margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 12px;
 }
 
-.player__current-time {}
+.payer__name-song {
+    margin: 0 5px;
+    font-size: 10px;
+}
 
-.player__total-time {}
+.volume-box {
+    margin-left: 5px;
+}
+
+.volume {
+    display: block;
+    position: relative;
+    width: 15px;
+    height: 15px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+}
+
+.volume-on {
+    background-image: url(../assets/svg/volume.svg);
+}
+
+.volume-off {
+    background-image: url(../assets/svg/novolume.svg);
+}
 
 .player__progress {
     margin-bottom: 10px;
