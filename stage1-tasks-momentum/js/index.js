@@ -31,6 +31,7 @@ const playerTotalTime = document.querySelector('.player__total-time');
 const playerSlider = document.querySelector('.player__slider');
 const payerNameSong = document.querySelector('.payer__name-song');
 const volume = document.querySelector('.volume');
+const playerVolumeRange = document.querySelector('.player__volume-range');
 
 let isPlay = false;
 let playNum = 0;
@@ -62,7 +63,7 @@ btnPlayNext.addEventListener('click', playNext);
 audio.addEventListener('ended', playNext);
 playerSlider.addEventListener('input', rewindAudio);
 volume.addEventListener('click', turnVolume);
-
+playerVolumeRange.addEventListener('input', volumeControl)
 
 
 function showTime() {
@@ -378,6 +379,7 @@ function outNameSong() {
 
 
 function turnVolume() {
+    console.dir(audio)
     if (volume.classList.contains('volume-on')) {
         volume.classList.remove('volume-on');
         volume.classList.add('volume-off');
@@ -389,4 +391,8 @@ function turnVolume() {
     }
 }
 
+function volumeControl() {
+    let valueVolume = +(playerVolumeRange.value / 100).toFixed(1);
+    audio.volume = valueVolume;
+}
 // аудиоплеер!
