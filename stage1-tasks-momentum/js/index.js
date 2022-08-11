@@ -32,9 +32,14 @@ const playerSlider = document.querySelector('.player__slider');
 const payerNameSong = document.querySelector('.payer__name-song');
 const volume = document.querySelector('.volume');
 const playerVolumeRange = document.querySelector('.player__volume-range');
+const settingBg = document.querySelector('.setting__bg');
+const bgQuery = document.querySelector('.bg-query');
 
 let isPlay = false;
 let playNum = 0;
+
+let AccessKey1 = '4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0'
+let SecretKey1 = 'bdHlIT2ipUUP3fzu_Ivf43R1tXwsnl6e8fd09LCqAW4'
 
 import playList from './playList.js';
 
@@ -48,7 +53,7 @@ window.addEventListener('load', () => {
     showTime()
     getNameCity()
     randomNum = generateRandomNumber(1, 20);
-    setBg()
+    changeBgImage()
     createListForSongs(playList);
 });
 city.addEventListener('change', getNameCity);
@@ -63,8 +68,9 @@ btnPlayNext.addEventListener('click', playNext);
 audio.addEventListener('ended', playNext);
 playerSlider.addEventListener('input', rewindAudio);
 volume.addEventListener('click', turnVolume);
-playerVolumeRange.addEventListener('input', volumeControl)
-
+playerVolumeRange.addEventListener('input', volumeControl);
+settingBg.addEventListener('input', changeBgImage);
+bgQuery.addEventListener('change', gettingQueryBg)
 
 function showTime() {
     const date = new Date();
@@ -75,7 +81,7 @@ function showTime() {
     setTimeout(showTime, 1000);
 }
 
-function showDate(lang = "en-US") {
+function showDate(lang = 'en-US') {
     const date = new Date();
     const options = {
         weekday: 'long',
@@ -91,9 +97,9 @@ function getTimeOfDay(lang = 'en-US') {
 
     let hours = date.getHours();
     let greetings = {
-        'en-US': ['Good morning', 'Good afternoon', 'Good evening', 'Good night'],
-        'uk': ['Добрай раніцы', 'Добры дзень', 'Добры вечар', 'Дабранач'],
-        'ru': ['Доброе утро', 'Добрый день', 'Добрый вечер', 'Доброй ночи']
+        "en-US": ['Good morning', 'Good afternoon', 'Good evening', 'Good night'],
+        "uk": ['Добрай раніцы', 'Добры дзень', 'Добры вечар', 'Дабранач'],
+        "ru": ['Доброе утро', 'Добрый день', 'Добрый вечер', 'Доброй ночи']
     }
     if (greetings[lang]) {
         if (hours >= 6 && hours < 12) {
@@ -202,13 +208,8 @@ function generateRandomNumber(min, max) {
     return Math.round(min + Math.random() * (max - min));
 }
 
-function setBg() {
-
-    let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
-
-    let bgNum = ('0' + randomNum.toString()).slice(-2);
-
-    let urlBg = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+function setBg(url) {
+    let urlBg = url;
 
     let img = new Image();
     img.src = urlBg;
@@ -217,29 +218,35 @@ function setBg() {
     };
 }
 
+function createBgByGit() {
+    let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
+    let bgNum = ('0' + randomNum.toString()).slice(-2);
+    return `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`;
+}
+
 function getSlideNext() {
     if (randomNum !== 20) {
         randomNum++;
         console.log(randomNum)
-        setBg()
+        changeBgImage()
         return
     }
     if (randomNum === 20) {
         console.log(randomNum)
         randomNum = 1;
-        setBg()
+        changeBgImage()
     }
 }
 
 function getSlidePrev() {
     if (randomNum > 1) {
         randomNum--;
-        setBg()
+        changeBgImage()
         return
     }
     if (randomNum === 1) {
         randomNum = 20;
-        setBg()
+        changeBgImage()
     }
 }
 
@@ -254,7 +261,6 @@ function activationSong(songs) {
     return newPlayList;
 
 }
-
 
 function conclusionData() {
     setTimeout(function f() {
@@ -277,7 +283,6 @@ function conclusionData() {
         let a = setTimeout(f, 1000);
     }, 1000);
 }
-
 
 function playAudio() {
     audio.src = playList[playNum].src;
@@ -309,7 +314,6 @@ function switchinSongs() {
 
     conclusionData()
 }
-
 
 function createListForSongs(playList) {
     playListBox.innerHTML = ''
@@ -377,7 +381,6 @@ function outNameSong() {
     payerNameSong.textContent = playList[playNum].title;
 }
 
-
 function turnVolume() {
     console.dir(audio)
     if (volume.classList.contains('volume-on')) {
@@ -396,3 +399,88 @@ function volumeControl() {
     audio.volume = valueVolume;
 }
 // аудиоплеер!
+
+// api img
+let AccessKey = '4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0'
+let SecretKey = 'bdHlIT2ipUUP3fzu_Ivf43R1tXwsnl6e8fd09LCqAW4'
+
+async function generateUnsplashImg() {
+    try {
+        let query = gettingQueryBg();
+        let fet = await fetch(`https://api.unsplash.com/photos/random?orientation=landscape&query=${query}&client_id=4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0`);
+        let res = await fet.json();
+        if (fet.status >= 200 && fet.status < 400) {
+            let urlBg = res.links.download;
+            setBg(urlBg)
+            return urlBg;
+        }
+    } catch (err) {
+        console.log('sorry( ' + err)
+    }
+}
+
+const keyUnsplash = '4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0';
+const keyFlickr = 'accabe44b1149859ef68199ecb16670c';
+let queryBg = '';
+
+function gettingQueryBg() {
+    let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
+    if (bgQuery.value.length === 0) {
+        return timeOfDay;
+    }
+    if (bgQuery.value.search(/\d/gi) !== -1) {
+        bgQuery.value = ''
+        bgQuery.placeholder = 'enter text without numbers'
+    }
+    let bgQuerVal = (bgQuery.value).trim();
+    queryBg = bgQuerVal;
+    changeBgImage(bgQuerVal)
+}
+
+function changeBgImage(query) {
+    console.log(query)
+    query = queryBg;
+    if (bgQuery.value.length === 0) {
+        let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
+        query = timeOfDay;
+        console.log(query)
+    }
+
+    if (settingBg.value == 'unsp') {
+        generateUnsplashImg();
+    }
+    if (settingBg.value == 'flickr') {
+        console.log(query)
+        generateFlickrImg(query);
+    }
+    if (settingBg.value == 'git') {
+        let urlBgGit = createBgByGit();
+        setBg(urlBgGit)
+    }
+
+}
+
+
+async function generateFlickrImg(bgQuery) {
+    try {
+        let url = ` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=accabe44b1149859ef68199ecb16670c&tags=${bgQuery}&extras=url_l&format=json&nojsoncallback=1`
+        console.log(bgQuery)
+        let fet = await fetch(url);
+        let res = await fet.json();
+        let urls = [];
+        if (fet.status >= 200 && fet.status < 400) {
+            let urlBg = res.photos.photo;
+            urlBg.forEach(obj => {
+                if (obj['url_l']) {
+                    urls.push(obj['url_l']);
+                }
+            })
+
+            setBg(urls[randomNum]);
+            return urlBg;
+        }
+    } catch (err) {
+        console.log('sorry( ' + err);
+        setBg(urls[randomNum]);
+    }
+}

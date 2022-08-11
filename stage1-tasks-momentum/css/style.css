@@ -183,6 +183,11 @@ body {
     cursor: pointer;
 }
 
+.box-inp {
+    margin-bottom: 10px;
+    display: block;
+}
+
 .weather {
     display: flex;
     flex-direction: column;
