@@ -41,14 +41,40 @@
             <ul class="play-list"></ul>
         </div>
         <div class="setting">
-            <label for="" class="box-inp">
+            <label class="box-inp">
                 <input type="text" class="bg-query" placeholder="query-bg">
             </label>
+
             <select name="setting__bg" id="" class="setting__bg">
                 <option value="git">git</option>
                 <option value="unsp">unsp</option>
                 <option value="flickr">flickr</option>
             </select>
+            <div class="block-management">
+                <h3>Show blocks</h3>
+                <label class="box-inp show-time">
+                    <input type="checkbox" name="time" value="show-time" checked>
+                    <span>time</span>
+                </label>
+                <label class="box-inp show-date">
+                    <input type="checkbox" name="date" value="show-date" checked>
+                    <span>date</span>
+                </label>
+                <label class="box-inp show-player">
+                    <input type="checkbox" name="player" value="show-player" checked>
+                    <span>player</span>
+                </label>
+                <label class="box-inp show-quotes">
+                    <input type="checkbox" name="quotes-box" value="show-quotes" checked> <span>quotes</span>
+                </label>
+                <label class="box-inp show-weather">
+                    <input type="checkbox" name="weather" value="show-weather" checked> <span>weather</span>
+                </label>
+                <label class="box-inp show-greeting">
+                    <input type="checkbox" name="greeting-container" value="show-greeting" checked>
+                    <span>greeting</span>
+                </label>
+            </div>
         </div>
         <div class="weather">
             <input type="text" class="city" />
@@ -75,10 +101,12 @@
         </div>
     </main>
     <footer class="footer">
-        <button class="change-quote"></button>
-        <div>
-            <div class="quote"></div>
-            <div class="author"></div>
+        <div class="quotes-box">
+            <button class="change-quote"></button>
+            <div>
+                <div class="quote"></div>
+                <div class="author"></div>
+            </div>
         </div>
     </footer>
     <script type="module" src="js/index.js"></script>

@@ -34,9 +34,22 @@ const volume = document.querySelector('.volume');
 const playerVolumeRange = document.querySelector('.player__volume-range');
 const settingBg = document.querySelector('.setting__bg');
 const bgQuery = document.querySelector('.bg-query');
+const blockManagement = document.querySelector('.block-management');
 
 let isPlay = false;
 let playNum = 0;
+let state = {
+    language: 'en',
+    backgroundSource: 'git',
+    blocks: {
+        "time": 'on',
+        "date": 'on',
+        "player": 'on',
+        "quotes-box": 'on',
+        "weather": 'on',
+        "greeting-container": 'on'
+    }
+}
 
 let AccessKey1 = '4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0'
 let SecretKey1 = 'bdHlIT2ipUUP3fzu_Ivf43R1tXwsnl6e8fd09LCqAW4'
@@ -45,16 +58,19 @@ import playList from './playList.js';
 
 
 window.addEventListener('beforeunload', () => {
-    setLocalStorage('name', greetingInput.value)
+    setLocalStorage('name', greetingInput.value);
+    setLocalStorage('state', JSON.stringify(state))
 });
 window.addEventListener('load', getLocalStorage);
 window.addEventListener('load', () => {
     getDataQuotes()
     showTime()
     getNameCity()
+    changeDataSettings()
     randomNum = generateRandomNumber(1, 20);
     changeBgImage()
     createListForSongs(playList);
+    handlerVisibilityBlocks(localStorage.getItem('state'));
 });
 city.addEventListener('change', getNameCity);
 btnGenerationQuotes.addEventListener('click', () => {
@@ -69,8 +85,9 @@ audio.addEventListener('ended', playNext);
 playerSlider.addEventListener('input', rewindAudio);
 volume.addEventListener('click', turnVolume);
 playerVolumeRange.addEventListener('input', volumeControl);
-settingBg.addEventListener('input', changeBgImage);
-bgQuery.addEventListener('change', gettingQueryBg)
+settingBg.addEventListener('input', getSourseBg);
+bgQuery.addEventListener('change', gettingQueryBg);
+blockManagement.addEventListener('click', blockManagementHandler);
 
 function showTime() {
     const date = new Date();
@@ -227,12 +244,12 @@ function createBgByGit() {
 function getSlideNext() {
     if (randomNum !== 20) {
         randomNum++;
-        console.log(randomNum)
+
         changeBgImage()
         return
     }
     if (randomNum === 20) {
-        console.log(randomNum)
+
         randomNum = 1;
         changeBgImage()
     }
@@ -401,12 +418,9 @@ function volumeControl() {
 // аудиоплеер!
 
 // api img
-let AccessKey = '4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0'
-let SecretKey = 'bdHlIT2ipUUP3fzu_Ivf43R1tXwsnl6e8fd09LCqAW4'
 
-async function generateUnsplashImg() {
+async function generateUnsplashImg(query) {
     try {
-        let query = gettingQueryBg();
         let fet = await fetch(`https://api.unsplash.com/photos/random?orientation=landscape&query=${query}&client_id=4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0`);
         let res = await fet.json();
         if (fet.status >= 200 && fet.status < 400) {
@@ -437,26 +451,36 @@ function gettingQueryBg() {
     changeBgImage(bgQuerVal)
 }
 
+function getSourseBg() {
+    state.backgroundSource = settingBg.value;
+    setLocalStorage('state', state);
+    changeBgImage()
+}
+
 function changeBgImage(query) {
-    console.log(query)
+    settingBg.value = state.backgroundSource;
+    bgQuery.style.opacity = 1;
     query = queryBg;
     if (bgQuery.value.length === 0) {
         let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
         query = timeOfDay;
-        console.log(query)
     }
-
     if (settingBg.value == 'unsp') {
-        generateUnsplashImg();
+        generateUnsplashImg(query);
     }
     if (settingBg.value == 'flickr') {
-        console.log(query)
         generateFlickrImg(query);
     }
     if (settingBg.value == 'git') {
         let urlBgGit = createBgByGit();
+        bgQuery.value = ''
+        bgQuery.style.opacity = 0.5;
         setBg(urlBgGit)
     }
+
+    // changeDataSettings()
+
+
 
 }
 
@@ -464,7 +488,7 @@ function changeBgImage(query) {
 async function generateFlickrImg(bgQuery) {
     try {
         let url = ` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=accabe44b1149859ef68199ecb16670c&tags=${bgQuery}&extras=url_l&format=json&nojsoncallback=1`
-        console.log(bgQuery)
+
         let fet = await fetch(url);
         let res = await fet.json();
         let urls = [];
@@ -483,4 +507,53 @@ async function generateFlickrImg(bgQuery) {
         console.log('sorry( ' + err);
         setBg(urls[randomNum]);
     }
+}
+
+
+
+
+function blockManagementHandler(e) {
+    let boxForShow = e.target.closest('.box-inp');
+
+    if (boxForShow) {
+        if (e.target.tagName == 'INPUT') {
+            let boxName = e.target.name;
+            if (!e.target.checked) {
+                state.blocks[boxName] = 'off';
+
+            } else {
+                state.blocks[boxName] = 'on';
+            }
+            document.querySelector('.' + boxName).classList.toggle('hidden-block');
+        }
+    }
+}
+
+function handlerVisibilityBlocks(state) {
+    if (state) {
+        state = JSON.parse(state);
+    } else {
+        return
+    }
+
+    for (let nameBlock in state.blocks) {
+        if (state.blocks[nameBlock] == 'on') {
+            document.querySelector('.' + nameBlock).classList.remove('hidden-block');
+            let input = document.querySelector(`input[name=${nameBlock}]`);
+            input.checked = true;
+
+        } else {
+            console.log(document.querySelector('.' + nameBlock))
+            document.querySelector('.' + nameBlock).classList.add('hidden-block');
+            let input = document.querySelector(`input[name=${nameBlock}]`);
+            input.checked = false;
+        }
+    }
+}
+
+function changeDataSettings() {
+    if (localStorage.getItem('state')) {
+        state = JSON.parse(localStorage.getItem('state'));
+    }
+    console.log(state)
 }
