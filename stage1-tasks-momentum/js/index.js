@@ -15,9 +15,6 @@ const quoteBox = document.querySelector('.quote');
 const author = document.querySelector('.author');
 const slideNext = document.querySelector('.slide-next');
 const slidePrev = document.querySelector('.slide-prev');
-let randomNum = generateRandomNumber(1, 20);
-
-
 
 const audio = new Audio();
 const btncontrolAudio = document.querySelector('.play');
@@ -35,9 +32,36 @@ const playerVolumeRange = document.querySelector('.player__volume-range');
 const settingBg = document.querySelector('.setting__bg');
 const bgQuery = document.querySelector('.bg-query');
 const blockManagement = document.querySelector('.block-management');
+const settingClose = document.querySelector('.setting-close');
+const settingBtn = document.querySelector('.setting__open');
+const todoInput = document.querySelector('.todo__input');
+const boxTodoList = document.querySelector('.todo__list');
+const todoToday = document.querySelector('.todo__today');
+const todoDone = document.querySelector('.todo__done');
 
+let todoList = [{
+        id: Math.random().toFixed(7),
+        text: 'Lorem ipsum dolor sit amet.',
+        done: false
+    },
+    {
+        id: Math.random().toFixed(7),
+        text: '2 Lorem ipsum dolor sit amet.',
+        done: false
+    },
+    {
+        id: Math.random().toFixed(7),
+        text: '3 Lorem ipsum dolor sit amet.',
+        done: false
+    }
+]
+let newTodoList = createNewTodoList(todoList);
+
+
+let randomNum = generateRandomNumber(1, 20);
 let isPlay = false;
 let playNum = 0;
+let queryBg = '';
 let state = {
     language: 'en',
     backgroundSource: 'git',
@@ -50,12 +74,7 @@ let state = {
         "greeting-container": 'on'
     }
 }
-
-let AccessKey1 = '4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0'
-let SecretKey1 = 'bdHlIT2ipUUP3fzu_Ivf43R1tXwsnl6e8fd09LCqAW4'
-
 import playList from './playList.js';
-
 
 window.addEventListener('beforeunload', () => {
     setLocalStorage('name', greetingInput.value);
@@ -71,6 +90,7 @@ window.addEventListener('load', () => {
     changeBgImage()
     createListForSongs(playList);
     handlerVisibilityBlocks(localStorage.getItem('state'));
+    appendingTasksTodo(newTodoList)
 });
 city.addEventListener('change', getNameCity);
 btnGenerationQuotes.addEventListener('click', () => {
@@ -88,6 +108,20 @@ playerVolumeRange.addEventListener('input', volumeControl);
 settingBg.addEventListener('input', getSourseBg);
 bgQuery.addEventListener('change', gettingQueryBg);
 blockManagement.addEventListener('click', blockManagementHandler);
+settingClose.addEventListener('click', () => {
+    document.querySelector('.setting__inner').classList.add('setting__inner--hide')
+});
+settingBtn.addEventListener('click', () => {
+    document.querySelector('.setting__inner').classList.remove('setting__inner--hide')
+});
+todoInput.addEventListener('keydown', (event) => {
+    getTaskTodo(event, newTodoList);
+})
+boxTodoList.addEventListener('click', (e) => {
+    handlerBoxTodoList(e, newTodoList);
+});
+todoToday.addEventListener('click', switchListTodoToday);
+todoDone.addEventListener('click', switchListTodoDone);
 
 function showTime() {
     const date = new Date();
@@ -219,7 +253,6 @@ function addingContentToQuote(data, lang) {
     author.textContent = quote.author;
     quoteBox.textContent = quote.text;
 }
-
 
 function generateRandomNumber(min, max) {
     return Math.round(min + Math.random() * (max - min));
@@ -433,10 +466,6 @@ async function generateUnsplashImg(query) {
     }
 }
 
-const keyUnsplash = '4cx9FQaptDE64NF-hrMhs_RrvBks_hz_IvjYdtwnxm0';
-const keyFlickr = 'accabe44b1149859ef68199ecb16670c';
-let queryBg = '';
-
 function gettingQueryBg() {
     let timeOfDay = getTimeOfDay().split(' ').slice(-1).join('');
     if (bgQuery.value.length === 0) {
@@ -484,7 +513,6 @@ function changeBgImage(query) {
 
 }
 
-
 async function generateFlickrImg(bgQuery) {
     try {
         let url = ` https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=accabe44b1149859ef68199ecb16670c&tags=${bgQuery}&extras=url_l&format=json&nojsoncallback=1`
@@ -508,9 +536,6 @@ async function generateFlickrImg(bgQuery) {
         setBg(urls[randomNum]);
     }
 }
-
-
-
 
 function blockManagementHandler(e) {
     let boxForShow = e.target.closest('.box-inp');
@@ -555,5 +580,112 @@ function changeDataSettings() {
     if (localStorage.getItem('state')) {
         state = JSON.parse(localStorage.getItem('state'));
     }
-    console.log(state)
+}
+
+function createNewTodoList(todoList) {
+    return todoList.reduce((newObj, task) => {
+        newObj[task.id] = task;
+        return newObj
+    }, {});
+}
+
+function getTaskTodo(e, newtodoList) {
+    let taskId = Math.random().toFixed(7);
+
+    if (e.key.toLowerCase() === 'enter') {
+        if (todoInput.value.length > 0 && todoInput.value.trim().length > 0) {
+            newtodoList[taskId] = {
+                id: taskId,
+                text: todoInput.value.trim(),
+                done: false
+            }
+
+            todoInput.value = '';
+            appendingTasksTodo(newtodoList)
+        }
+    }
+}
+
+
+function createItemTaskTodo(todoList) {
+
+    let todoItem = document.createElement('li');
+    let todoListBox = document.createElement('div');
+    let taskTodo = document.createElement('span');
+    let todoDoneInp = document.createElement('input');
+
+    todoDoneInp.type = 'checkbox';
+    todoItem.dataset.id = todoList.id;
+
+    todoItem.classList.add('todo__item', 'today');
+    todoListBox.classList.add('todo__list-box');
+    todoDoneInp.classList.add('todo__done-inp');
+
+    taskTodo.textContent = todoList.text;
+    todoItem.appendChild(todoListBox);
+    todoListBox.appendChild(todoDoneInp);
+    todoListBox.appendChild(taskTodo);
+
+    return todoItem;
+}
+
+function appendingTasksTodo(newTodoList) {
+
+    let fragmentTasksToday = document.createDocumentFragment();
+    let fragmentTasksDone = document.createDocumentFragment();
+
+    for (let taskId in newTodoList) {
+        let task = newTodoList[taskId];
+
+        if (!task.done) {
+            fragmentTasksToday.appendChild(createItemTaskTodo(task));
+        } else {
+            fragmentTasksDone.appendChild(createItemTaskTodo(task));
+        }
+    }
+    if (boxTodoList.classList.contains('todo__list--done')) {
+        boxTodoList.innerHTML = '';
+        boxTodoList.appendChild(fragmentTasksDone);
+        return
+    }
+    if (boxTodoList.classList.contains('todo__list--today')) {
+        console.log(134432)
+        boxTodoList.innerHTML = '';
+        boxTodoList.appendChild(fragmentTasksToday);
+        return
+    }
+}
+
+
+function handlerBoxTodoList(e, newTodoList) {
+    let itemTask = e.target.closest('.todo__item');
+    let inpTask = itemTask.querySelector('.todo__done-inp')
+    console.log(inpTask.checked)
+    if (inpTask.checked) {
+        let taskItemId = itemTask.getAttribute('data-id');
+        newTodoList[taskItemId].done = true;
+        appendingTasksTodo(newTodoList)
+        return
+    } else if (!inpTask.checked) {
+        let taskItemId = itemTask.getAttribute('data-id');
+        newTodoList[taskItemId].done = false;
+        appendingTasksTodo(newTodoList)
+    }
+
+}
+
+function switchListTodoToday() {
+    todoToday.classList.add('todo__today--active')
+    todoDone.classList.remove('todo__done--acitve');
+    boxTodoList.classList.add('todo__list--today');
+    boxTodoList.classList.remove('todo__list--done');
+    appendingTasksTodo(newTodoList)
+}
+
+function switchListTodoDone() {
+    todoDone.classList.add('todo__done--acitve')
+    todoToday.classList.remove('todo__today--active')
+    boxTodoList.classList.remove('todo__list--today');
+    boxTodoList.classList.add('todo__list--done');
+    appendingTasksTodo(newTodoList)
 }
