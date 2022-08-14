@@ -380,8 +380,139 @@ footer * {
 }
 
 .todo {
-    max-width: 250px;
+    padding: 15px;
+    max-width: 230px;
     width: 100%;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.728);
+    min-height: 225px;
+}
+
+.todo ul {
+    list-style: none;
+}
+
+.todo__tabs {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo__tabs li {
+    flex-grow: 2;
+}
+
+.todo button {
+    display: block;
+    width: 100%;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: rgb(255, 255, 255);
+    transition: background 0.5s;
+    cursor: pointer;
+}
+
+.todo button:hover {
+    background-color: rgb(207, 207, 207);
+}
+
+.todo__input {
+    margin-bottom: 15px;
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: 1px solid rgb(62, 255, 62);
+    transition: border 0.5s;
+}
+
+.todo__input:hover {
+    border: 2px solid rgb(62, 255, 62);
+}
+
+.todo__done,
+.todo__delete-last {
+    margin-left: 10px;
+}
+
+.todo__input--hide {
+    display: none;
+}
+
+.todo__btns-delete {
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo__btns-delete button {
+    padding: 3px 0;
+    font-size: 16px;
+}
+
+.todo .todo__clear-all {
+    background-color: #f74d4d;
+    transition: background 0.5s;
+}
+
+.todo .todo__delete-last {
+    background-color: #f6bd20;
+    transition: background 0.5s;
+}
+
+.todo .todo__delete-last:hover {
+    background-color: #dba100;
+    transition: background 0.5s;
+}
+
+.todo .todo__clear-all:hover {
+    background-color: #f53535;
+}
+
+.todo__list-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.todo__today--active button {
+    background-color: rgb(184, 184, 184);
+}
+
+.todo__done--acitve button {
+    background-color: rgb(184, 184, 184);
+}
+
+.todo__clear-all {
+    background-color: #f74d4d;
+}
+
+.todo__list-box span {
+    line-height: 18px;
+    font-size: 16px;
+}
+
+.todo__done-inp {
+    height: 15px;
+    width: 15px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: height 0.5s;
+}
+
+.todo__done-inp:hover {
+    height: 17px;
+}
+
+.todo__item:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+.todo__list-box span {
+    width: 100%;
+    text-align: left;
 }
 
 .block-management h3 {

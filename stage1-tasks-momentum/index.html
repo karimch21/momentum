@@ -117,10 +117,18 @@
         <div class="todo">
             <div class="todo-wrap">
                 <ul class="todo__tabs">
-                    <li class="todo__today todo__today--active">Today</li>
-                    <li class="todo__done">Done</li>
+                    <li class="todo__today todo__today--active">
+                        <button>Today</button>
+                    </li>
+                    <li class="todo__done">
+                        <button>Done</button>
+                    </li>
                 </ul>
                 <input type="text" class="todo__input" placeholder="New todo">
+                <div class="todo__btns-delete">
+                    <button class="todo__clear-all">clear all</button>
+                    <button class="todo__delete-last">delete last</button>
+                </div>
                 <ul class="todo__list todo__list--today">
 
                 </ul>

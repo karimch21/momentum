@@ -38,6 +38,8 @@ const todoInput = document.querySelector('.todo__input');
 const boxTodoList = document.querySelector('.todo__list');
 const todoToday = document.querySelector('.todo__today');
 const todoDone = document.querySelector('.todo__done');
+const todoClearAll = document.querySelector('.todo__clear-all');
+const todoDeleteLast = document.querySelector('.todo__delete-last');
 
 let todoList = [{
         id: Math.random().toFixed(7),
@@ -122,6 +124,9 @@ boxTodoList.addEventListener('click', (e) => {
 });
 todoToday.addEventListener('click', switchListTodoToday);
 todoDone.addEventListener('click', switchListTodoDone);
+todoClearAll.addEventListener('click', crealContentTodo);
+todoDeleteLast.addEventListener('click', deleteLastTaskTodo);
+
 
 function showTime() {
     const date = new Date();
@@ -615,6 +620,9 @@ function createItemTaskTodo(todoList) {
     let todoDoneInp = document.createElement('input');
 
     todoDoneInp.type = 'checkbox';
+    if (todoList.done) {
+        todoDoneInp.checked = true;
+    }
     todoItem.dataset.id = todoList.id;
 
     todoItem.classList.add('todo__item', 'today');
@@ -664,7 +672,7 @@ function handlerBoxTodoList(e, newTodoList) {
     if (inpTask.checked) {
         let taskItemId = itemTask.getAttribute('data-id');
         newTodoList[taskItemId].done = true;
-        appendingTasksTodo(newTodoList)
+        appendingTasksTodo(newTodoList);
         return
     } else if (!inpTask.checked) {
         let taskItemId = itemTask.getAttribute('data-id');
@@ -675,6 +683,7 @@ function handlerBoxTodoList(e, newTodoList) {
 }
 
 function switchListTodoToday() {
+    todoInput.classList.remove('todo__input--hide');
     todoToday.classList.add('todo__today--active')
     todoDone.classList.remove('todo__done--acitve');
     boxTodoList.classList.add('todo__list--today');
@@ -683,9 +692,40 @@ function switchListTodoToday() {
 }
 
 function switchListTodoDone() {
+    todoInput.classList.add('todo__input--hide');
     todoDone.classList.add('todo__done--acitve')
     todoToday.classList.remove('todo__today--active')
     boxTodoList.classList.remove('todo__list--today');
     boxTodoList.classList.add('todo__list--done');
+    appendingTasksTodo(newTodoList);
+}
+
+function crealContentTodo(e) {
+    boxTodoList.innerHTML = '';
+    let todoTabItem = document.querySelector('.todo__today--active') || document.querySelector('.todo__done--acitve');
+
+    if (todoTabItem.classList.contains('todo__today--active')) {
+        for (let key in newTodoList) {
+            if (!newTodoList[key].done) {
+                delete newTodoList[key]
+            }
+        }
+    } else if (todoTabItem.classList.contains('todo__done--acitve')) {
+        for (let key in newTodoList) {
+            if (newTodoList[key].done) {
+                delete newTodoList[key];
+            }
+        }
+    }
     appendingTasksTodo(newTodoList)
+}
+
+function deleteLastTaskTodo() {
+    let lastTask = boxTodoList.querySelector('li:last-of-type');
+    if (lastTask) {
+        console.log(newTodoList)
+        let idLastTask = lastTask.getAttribute('data-id');
+        delete newTodoList[idLastTask]
+        appendingTasksTodo(newTodoList)
+    }
 }
