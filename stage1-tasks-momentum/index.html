@@ -64,13 +64,7 @@
             <span class="greeting"></span>
             <input type="text" class="name" placeholder="[Enter name]" />
         </div>
-        <div class="quotes-box">
-            <button class="change-quote"></button>
-            <div>
-                <div class="quote"></div>
-                <div class="author"></div>
-            </div>
-        </div>
+
     </main>
     <footer class="footer">
         <div class="setting">
@@ -113,27 +107,37 @@
                 </div>
             </div>
         </div>
-
-        <div class="todo">
-            <div class="todo-wrap">
-                <ul class="todo__tabs">
-                    <li class="todo__today todo__today--active">
-                        <button>Today</button>
-                    </li>
-                    <li class="todo__done">
-                        <button>Done</button>
-                    </li>
-                </ul>
-                <input type="text" class="todo__input" placeholder="New todo">
-                <div class="todo__btns-delete">
-                    <button class="todo__clear-all">clear all</button>
-                    <button class="todo__delete-last">delete last</button>
-                </div>
-                <ul class="todo__list todo__list--today">
-
-                </ul>
+        <div class="quotes-box">
+            <button class="change-quote"></button>
+            <div>
+                <div class="quote"></div>
+                <div class="author"></div>
             </div>
         </div>
+        <div class="todo-wrap">
+            <button class="todo-open-btn">Todo</button>
+            <div class="todo">
+                <div class="todo-wrap">
+                    <ul class="todo__tabs">
+                        <li class="todo__today todo__today--active">
+                            <button>Today</button>
+                        </li>
+                        <li class="todo__done">
+                            <button>Done</button>
+                        </li>
+                    </ul>
+                    <input type="text" class="todo__input" placeholder="New todo">
+                    <div class="todo__btns-delete">
+                        <button class="todo__clear-all">clear all</button>
+                        <button class="todo__delete-last">delete last</button>
+                    </div>
+                    <ul class="todo__list todo__list--today">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </footer>
     <script type="module" src="js/index.js"></script>
 </body>

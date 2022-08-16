@@ -19,6 +19,8 @@ body {
     text-align: center;
     background: url("") center/cover, rgba(0, 0, 0, 0.5);
     background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
     transition: background-image 1s ease-in-out;
 }
 
@@ -247,7 +249,6 @@ footer * {
 }
 
 .main {
-    margin-bottom: 50px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -379,13 +380,42 @@ footer * {
     width: 100%;
 }
 
+.todo-wrap {
+    max-width: 230px;
+    width: 100%;
+    position: relative;
+}
+
 .todo {
     padding: 15px;
     max-width: 230px;
     width: 100%;
+    position: absolute;
+    bottom: 50px;
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.728);
     min-height: 225px;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: -1;
+}
+
+.todo--active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.todo-open-btn {
+    padding: 5px 20px;
+    font-size: 21px;
+    border: none;
+    border-radius: 10px;
+    transition: background 0.5s;
+    cursor: pointer;
+}
+
+.todo-open-btn:hover {
+    background-color: rgb(171, 171, 171);
 }
 
 .todo ul {

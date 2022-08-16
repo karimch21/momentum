@@ -34,12 +34,14 @@ const bgQuery = document.querySelector('.bg-query');
 const blockManagement = document.querySelector('.block-management');
 const settingClose = document.querySelector('.setting-close');
 const settingBtn = document.querySelector('.setting__open');
+const todo = document.querySelector('.todo');
 const todoInput = document.querySelector('.todo__input');
 const boxTodoList = document.querySelector('.todo__list');
 const todoToday = document.querySelector('.todo__today');
 const todoDone = document.querySelector('.todo__done');
 const todoClearAll = document.querySelector('.todo__clear-all');
 const todoDeleteLast = document.querySelector('.todo__delete-last');
+const todoOpenBtn = document.querySelector('.todo-open-btn');
 
 let todoList = [{
         id: Math.random().toFixed(7),
@@ -92,7 +94,8 @@ window.addEventListener('load', () => {
     changeBgImage()
     createListForSongs(playList);
     handlerVisibilityBlocks(localStorage.getItem('state'));
-    appendingTasksTodo(newTodoList)
+    appendingTasksTodo(newTodoList);
+    window.addEventListener('click', clickWindowHadler);
 });
 city.addEventListener('change', getNameCity);
 btnGenerationQuotes.addEventListener('click', () => {
@@ -126,7 +129,8 @@ todoToday.addEventListener('click', switchListTodoToday);
 todoDone.addEventListener('click', switchListTodoDone);
 todoClearAll.addEventListener('click', crealContentTodo);
 todoDeleteLast.addEventListener('click', deleteLastTaskTodo);
-
+todoOpenBtn.addEventListener('click', openTodo);
+// window.addEventListener('click', windowClickHandlerl)
 
 function showTime() {
     const date = new Date();
@@ -587,6 +591,30 @@ function changeDataSettings() {
     }
 }
 
+function clickWindowHadler(e) {
+    closeTodoList(e)
+}
+
+function closeTodoList(e) {
+    let elemnts = e.path;
+    let arrEl = [];
+
+    for (let el of elemnts) {
+        arrEl.push(el)
+    }
+    let obj = arrEl.reduce((objNew, el) => {
+        objNew[el.className] = el
+        return objNew
+    }, {})
+    if (!obj['todo todo--active'] && !e.target.closest('.todo-open-btn')) {
+        todo.classList.remove('todo--active')
+    }
+}
+
+function openTodo() {
+    todo.classList.toggle('todo--active');
+}
+
 function createNewTodoList(todoList) {
     return todoList.reduce((newObj, task) => {
         newObj[task.id] = task;
@@ -667,6 +695,7 @@ function appendingTasksTodo(newTodoList) {
 
 function handlerBoxTodoList(e, newTodoList) {
     let itemTask = e.target.closest('.todo__item');
+    if (!itemTask) return;
     let inpTask = itemTask.querySelector('.todo__done-inp')
     console.log(inpTask.checked)
     if (inpTask.checked) {
