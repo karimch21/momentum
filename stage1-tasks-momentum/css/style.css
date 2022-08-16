@@ -11,7 +11,6 @@
 }
 
 body {
-    min-width: 480px;
     min-height: 100vh;
     font-family: "Arial", sans-serif;
     font-size: 16px;
@@ -334,12 +333,58 @@ footer * {
 }
 
 .footer {
+    padding: 20px;
+}
+
+.footer__inner {
+    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     width: 100%;
-    min-height: 160px;
-    padding: 20px;
+}
+
+.footer__coop {
+    padding: 5px 0;
+    background-color: rgba(255, 255, 255, 0.199);
+    border-radius: 10px;
+}
+
+.footer__coop a {
+    font-size: 12px;
+}
+
+.footer__coop-my {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer__coop-my span {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.footer__coop-my svg {
+    height: 25px;
+    width: 25px;
+}
+
+.footer__coop-course a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.footer__coop-course span {
+    margin-left: 5px;
+}
+
+.footer__coop-course img {
+    width: 70px;
+    height: 40px;
+    object-fit: contain;
 }
 
 .bg-query,
@@ -368,7 +413,7 @@ footer * {
     border-radius: 10px;
     background-color: rgba(15, 15, 15, 0.772);
     position: absolute;
-    width: 150px;
+    width: 200px;
     bottom: 50px;
     left: 0;
     opacity: 1;
@@ -509,6 +554,11 @@ footer * {
     background-color: #f53535;
 }
 
+.todo__list {
+    max-height: 100px;
+    overflow-y: auto;
+}
+
 .todo__list-box {
     display: flex;
     justify-content: flex-start;
@@ -551,6 +601,11 @@ footer * {
 .todo__list-box span {
     width: 100%;
     text-align: left;
+}
+
+.block-management {
+    height: 100px;
+    overflow-y: auto;
 }
 
 .block-management h3 {

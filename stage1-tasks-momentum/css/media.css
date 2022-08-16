@@ -64,4 +64,161 @@
     .quotes-box {
         font-size: 12px;
     }
+    .todo button {
+        padding: 1px 11px;
+        font-size: 14px;
+    }
+    .todo__input {
+        margin-bottom: 10px;
+        padding: 3px 8px;
+        font-size: 14px;
+    }
+    .todo__btns-delete {
+        margin-bottom: 15px;
+    }
+    .todo__list-box span {
+        line-height: 14px;
+        font-size: 14px;
+    }
+    .todo__item:not(:last-of-type) {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 450px) {
+    .weather {
+        min-height: 140px;
+        font-size: 13px;
+        width: 133px;
+    }
+    .city {
+        width: 100%;
+    }
+    .player-icon,
+    .slider-icon,
+    .change-quote {
+        width: 30px;
+        height: 25px;
+        background-size: contain;
+    }
+    .play {
+        width: 30px;
+        height: 30px;
+        background-size: contain;
+    }
+    .player-controls {
+        width: 100px;
+    }
+    .play-item {
+        font-size: 14px;
+    }
+    .player__slider {
+        height: 5px;
+    }
+    .player__volume-range {
+        height: 3px;
+    }
+    .time {
+        min-height: auto;
+        font-size: 55px;
+    }
+    .quotes-box {
+        min-width: auto;
+        font-size: 11px;
+    }
+    .slider-icon,
+    .change-quote {
+        width: 20px;
+        height: 20px;
+    }
+    .todo-open-btn,
+    .setting__open {
+        padding: 4px 10px;
+        font-size: 13px;
+    }
+    .footer__coop a,
+    .footer__coop span {
+        font-size: 10px;
+    }
+    .footer__coop-my svg {
+        height: 20px;
+        width: 20px;
+    }
+    .footer__coop-course img {
+        width: 55px;
+        height: 37px;
+    }
+    .music-control {
+        font-size: 8px;
+    }
+    .bg-query,
+    .setting__bg {
+        padding: 2px 0px;
+        font-size: 12px;
+    }
+    .block-management h3 {
+        font-size: 14px;
+    }
+    .setting__bg {
+        margin-bottom: 10px;
+    }
+    .box-inp span {
+        font-size: 12px;
+    }
+    .block-management input {
+        height: 9px;
+        width: 9px;
+    }
+    .box-inp {
+        margin-bottom: 2px;
+    }
+    .setting__inner {
+        width: 150px;
+    }
+}
+
+@media (max-width: 380px) {
+    .time {
+        font-size: 45px;
+    }
+    .date {
+        font-size: 15px;
+        line-height: 15px;
+    }
+    .greeting-container {
+        margin-bottom: 10px;
+        font-size: 22px;
+    }
+    .greeting-container .name {
+        font-size: 22px;
+    }
+    .greeting-container .name::placeholder {
+        font-size: 22px;
+    }
+    .header {
+        min-height: auto;
+    }
+    .quotes-box {
+        line-height: 12px;
+        font-size: 9px;
+    }
+    .weather {
+        min-height: 130px;
+        font-size: 10px;
+        width: 105px;
+    }
+    .play-item {
+        font-size: 10px;
+    }
+    .player__slider {
+        height: 3px;
+    }
+    .footer__coop-course img {
+        width: 49px;
+        height: 24px;
+    }
+    .greeting,
+    .greeting-container .name {
+        padding-top: 0;
+    }
 }
