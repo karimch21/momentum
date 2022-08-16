@@ -113,9 +113,7 @@ playerVolumeRange.addEventListener('input', volumeControl);
 settingBg.addEventListener('input', getSourseBg);
 bgQuery.addEventListener('change', gettingQueryBg);
 blockManagement.addEventListener('click', blockManagementHandler);
-settingClose.addEventListener('click', () => {
-    document.querySelector('.setting__inner').classList.add('setting__inner--hide')
-});
+
 settingBtn.addEventListener('click', () => {
     document.querySelector('.setting__inner').classList.remove('setting__inner--hide')
 });
@@ -578,9 +576,11 @@ function handlerVisibilityBlocks(state) {
 
         } else {
             console.log(document.querySelector('.' + nameBlock))
-            document.querySelector('.' + nameBlock).classList.add('hidden-block');
-            let input = document.querySelector(`input[name=${nameBlock}]`);
-            input.checked = false;
+            if (document.querySelector('.' + nameBlock)) {
+                document.querySelector('.' + nameBlock).classList.add('hidden-block');
+                let input = document.querySelector(`input[name=${nameBlock}]`);
+                input.checked = false;
+            }
         }
     }
 }
@@ -593,7 +593,16 @@ function changeDataSettings() {
 
 function clickWindowHadler(e) {
     closeTodoList(e)
+    closeSetting(e)
 }
+
+function closeSetting(e) {
+    let target = e.target;
+    if (!target.closest('.setting') && !target.closest('.setting__open')) {
+        document.querySelector('.setting__inner').classList.add('setting__inner--hide')
+    }
+
+};
 
 function closeTodoList(e) {
     let elemnts = e.path;
