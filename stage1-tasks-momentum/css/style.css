@@ -22,6 +22,16 @@ body {
     background-repeat: no-repeat;
     overflow-x: hidden;
     transition: background-image 1s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    flex: 1;
+}
+
+.footer {
+    flex-shrink: 0;
 }
 
 .header {
@@ -255,7 +265,6 @@ footer * {
     justify-content: center;
     align-items: center;
     width: 100%;
-    min-height: 260px;
     padding: 20px;
 }
 
@@ -333,12 +342,6 @@ footer * {
     padding: 20px;
 }
 
-.setting {
-    max-width: 150px;
-    width: 100%;
-    transition: opacity 0.5s;
-}
-
 .bg-query,
 .setting__bg {
     padding: 5px 0;
@@ -357,6 +360,7 @@ footer * {
 .setting {
     position: relative;
     text-align: center;
+    transition: opacity 0.5s;
 }
 
 .setting__inner {
@@ -364,8 +368,9 @@ footer * {
     border-radius: 10px;
     background-color: rgba(15, 15, 15, 0.772);
     position: absolute;
-    width: 100%;
+    width: 150px;
     bottom: 50px;
+    left: 0;
     opacity: 1;
     z-index: 1;
     transition: opacity 0.5s;
@@ -377,22 +382,21 @@ footer * {
 }
 
 .quotes-box {
+    margin: 0 5px;
     max-width: 390px;
     min-width: 250px;
     width: 100%;
 }
 
 .todo-box {
-    max-width: 230px;
-    width: 100%;
     position: relative;
 }
 
 .todo {
     padding: 15px;
-    max-width: 230px;
-    width: 100%;
     position: absolute;
+    right: 0;
+    width: 230px;
     bottom: 50px;
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.728);
@@ -559,11 +563,13 @@ footer * {
 }
 
 .quote {
+    margin-bottom: 5px;
     min-height: 32px;
 }
 
 .author {
     min-height: 20px;
+    font-style: italic;
 }
 
 @media (max-width: 768px) {

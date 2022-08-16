@@ -1,0 +1,67 @@
+@media (max-width: 600px) {
+    .player-controls {
+        margin-bottom: 10px;
+    }
+    .play-item {
+        padding: 2px 5px 2px 13px;
+    }
+    .play-item::before {
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 11px;
+    }
+    .city {
+        font-size: 16px;
+        line-height: 16px;
+    }
+    .weather {
+        min-height: 160px;
+    }
+    .header,
+    .main,
+    .footer {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .time {
+        margin-bottom: 5px;
+        font-size: 65px;
+    }
+    .date {
+        min-height: auto;
+        font-size: 18px;
+        line-height: 18px;
+        margin-bottom: 5px;
+    }
+    .greeting-container {
+        margin-bottom: 20px;
+        font-size: 26px;
+    }
+    .greeting-container .name::placeholder {
+        font-size: 25px;
+    }
+    .greeting-container .name {
+        font-size: 28px;
+    }
+    .change-quote {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 10px;
+        background-size: contain;
+    }
+    .quote {
+        margin-bottom: 5px;
+        min-height: auto;
+    }
+    .author {
+        min-height: auto;
+    }
+    .todo-open-btn,
+    .setting__open {
+        padding: 5px 14px;
+        font-size: 16px;
+    }
+    .quotes-box {
+        font-size: 12px;
+    }
+}
