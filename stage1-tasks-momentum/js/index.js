@@ -83,7 +83,9 @@ import playList from './playList.js';
 window.addEventListener('beforeunload', () => {
     setLocalStorage('name', greetingInput.value);
     setLocalStorage('state', JSON.stringify(state))
+    setLocalStorage('todo', JSON.stringify(newTodoList))
 });
+
 window.addEventListener('load', getLocalStorage);
 window.addEventListener('load', () => {
     getDataQuotes()
@@ -94,6 +96,7 @@ window.addEventListener('load', () => {
     changeBgImage()
     createListForSongs(playList);
     handlerVisibilityBlocks(localStorage.getItem('state'));
+    getInLocalStorageTodoList()
     appendingTasksTodo(newTodoList);
     window.addEventListener('click', clickWindowHadler);
 });
@@ -216,7 +219,7 @@ async function getWeather(city, lang = 'en') {
     const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city || 'Minsk'}&lang=${lang}&appid=d20ba9cced40c03fddd74ad024f5cff6&units=metric`);
     const data = await res.json();
     if (!(data.cod < 300 && data.cod >= 200)) {
-        weatherError.textContent = 'ОЙ, что-то пошло не так'
+        weatherError.textContent = 'Oops, something went wrong'
         clearContentWeatherBlock(data)
         return false
     } else {
@@ -629,6 +632,14 @@ function createNewTodoList(todoList) {
         newObj[task.id] = task;
         return newObj
     }, {});
+}
+
+function getInLocalStorageTodoList() {
+    if (localStorage.getItem('todo')) {
+        newTodoList = JSON.parse(localStorage.getItem('todo'));
+    } else {
+        createNewTodoList(todoList)
+    }
 }
 
 function getTaskTodo(e, newtodoList) {

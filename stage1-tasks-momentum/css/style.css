@@ -327,7 +327,7 @@ footer * {
 .footer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
     min-height: 160px;
     padding: 20px;
@@ -336,15 +336,18 @@ footer * {
 .setting {
     max-width: 150px;
     width: 100%;
+    transition: opacity 0.5s;
 }
 
 .bg-query,
 .setting__bg {
+    padding: 5px 0;
     margin: 0 auto 10px;
     max-width: 150px;
     display: block;
     width: 100%;
     text-align: center;
+    font-size: 16px;
 }
 
 .setting__bg {
@@ -363,15 +366,14 @@ footer * {
     position: absolute;
     width: 100%;
     bottom: 50px;
-    height: auto;
-    overflow: visible;
+    opacity: 1;
+    z-index: 1;
+    transition: opacity 0.5s;
 }
 
 .setting__inner--hide {
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 0;
-    overflow-y: hidden;
+    opacity: 0;
+    z-index: -1;
 }
 
 .quotes-box {
@@ -405,7 +407,8 @@ footer * {
     z-index: 1;
 }
 
-.todo-open-btn {
+.todo-open-btn,
+.setting__open {
     padding: 5px 20px;
     font-size: 21px;
     border: none;
@@ -414,7 +417,8 @@ footer * {
     cursor: pointer;
 }
 
-.todo-open-btn:hover {
+.todo-open-btn:hover,
+.setting__open:hover {
     background-color: rgb(171, 171, 171);
 }
 
