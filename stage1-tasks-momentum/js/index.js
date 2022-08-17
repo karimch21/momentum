@@ -578,7 +578,7 @@ function handlerVisibilityBlocks(state) {
             input.checked = true;
 
         } else {
-            console.log(document.querySelector('.' + nameBlock))
+
             if (document.querySelector('.' + nameBlock)) {
                 document.querySelector('.' + nameBlock).classList.add('hidden-block');
                 let input = document.querySelector(`input[name=${nameBlock}]`);
@@ -705,7 +705,7 @@ function appendingTasksTodo(newTodoList) {
         return
     }
     if (boxTodoList.classList.contains('todo__list--today')) {
-        console.log(134432)
+
         boxTodoList.innerHTML = '';
         boxTodoList.appendChild(fragmentTasksToday);
         return
@@ -717,7 +717,7 @@ function handlerBoxTodoList(e, newTodoList) {
     let itemTask = e.target.closest('.todo__item');
     if (!itemTask) return;
     let inpTask = itemTask.querySelector('.todo__done-inp')
-    console.log(inpTask.checked)
+
     if (inpTask.checked) {
         let taskItemId = itemTask.getAttribute('data-id');
         newTodoList[taskItemId].done = true;
@@ -772,9 +772,11 @@ function crealContentTodo(e) {
 function deleteLastTaskTodo() {
     let lastTask = boxTodoList.querySelector('li:last-of-type');
     if (lastTask) {
-        console.log(newTodoList)
+
         let idLastTask = lastTask.getAttribute('data-id');
         delete newTodoList[idLastTask]
         appendingTasksTodo(newTodoList)
     }
 }
+
+console.clear()
